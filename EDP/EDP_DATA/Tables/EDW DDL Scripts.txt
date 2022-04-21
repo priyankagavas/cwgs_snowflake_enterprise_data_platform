@@ -1,0 +1,1188 @@
+********************************MDM Tables******************************************************************************
+CREATE OR REPLACE TABLE DIM_MDM_CUSTOMER
+(
+	CUSTOMER_ID INT NOT NULL  COMMENT 'System generated unique customer number',
+	PREFIX_NAME VARCHAR(10) NULL  COMMENT 'Customer name prefix, such as Mr.',
+	FIRST_NAME VARCHAR(100) NULL  COMMENT 'Customer first name',
+	MIDDLE_NAME VARCHAR(100) NULL  COMMENT 'Customer''s middle name',
+	LAST_NAME VARCHAR(100) NULL  COMMENT 'Customer''s last name',
+	BIRTH_DATE DATE NULL  COMMENT 'Date of birth',
+	TITLE_NAME VARCHAR(50) NULL  COMMENT 'Customer title',
+	CUSTOMER_TYPE_DESC VARCHAR(255) NULL  COMMENT 'Description of a customer type, such as person or company',
+	SUFFIX_NAME VARCHAR(10) NULL  COMMENT 'Customer name suffix, such as Sr.',
+	FULL_NAME VARCHAR(150) NULL  COMMENT 'Customer full name',
+	GENDER_CODE VARCHAR(5) NULL  COMMENT 'Code that identifies a customer''s gender, such as F,M,U',
+	CUSTOMER_IND VARCHAR(1) NULL  COMMENT 'Customer indicator',
+	RV_TYPE_CODE VARCHAR(20) NULL  COMMENT 'A code identifying type of customer RV',
+	BUSINESS_EMAIL_ADDR VARCHAR(80) NULL  COMMENT 'Customer business email address',
+	PERSONAL_EMAIL_ADDR VARCHAR(80) NULL  COMMENT 'Customer personal email address',
+	BUSINESS_PHONE_NBR VARCHAR(20) NULL  COMMENT 'Customer business phone number',
+	PERSONAL_PHONE_NBR VARCHAR(20) NULL  COMMENT 'Customer personal phone number',
+	LINE_1_ADDR VARCHAR(200) NULL  COMMENT 'Address line 1',
+	LINE_2_ADDR VARCHAR(100) NULL  COMMENT 'Address line 2',
+	COUNTY_NAME VARCHAR(255) NULL  COMMENT 'Address county',
+	CITY_NAME VARCHAR(50) NULL  COMMENT 'Address city name',
+	STATE_CODE VARCHAR(50) NULL  COMMENT 'Address state code',
+	COUNTRY_CODE VARCHAR(3) NULL ,
+	POSTAL_CODE VARCHAR(10) NULL  COMMENT 'Address postal code',
+	POSTAL_EXTENSION_CODE VARCHAR(10) NULL  COMMENT 'Address postal code extension',
+	LATITUDE_COORDINATES VARCHAR(20) NULL  COMMENT 'Address latitude coordinate',
+	LONGITUDE_COORDINATES VARCHAR(20) NULL  COMMENT 'Address longitude coordinate',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	MDM_CUSTOMER_ID VARCHAR(20) NULL  COMMENT 'A unique MDM customer identifier',
+	DATA_SOURCE_CODE VARCHAR(20) NULL  COMMENT 'A code that identifies a data source, such as DLR, GSM, SF etc',
+	IS_DELETED_FLAG BYTEINT NULL  COMMENT 'Flag that indicates if a record is deleted. such as 0 - not deleted (valid record); 1 - deleted (invalid record)'
+)
+COMMENT = 'Customer personal attributes. Data help to understand who their customers are. common customer demographics for business purposes include age, gender, education level, marital status, ethnicity,family status,household income, occupation and hobbies. 
+These demographic factors can influence how to market your target audience.';
+
+CREATE OR REPLACE TABLE MDM_CUSTOMER_ADDR
+(
+	ADDR_ID VARCHAR(20) NOT NULL  COMMENT 'A unique MDM address identifier',
+	DATA_SOURCE_CODE VARCHAR(20) NULL  COMMENT 'A code that identifies a data source, such as DLR, GSM, SF etc',
+	MDM_ADDR_ID VARCHAR(20) NULL  COMMENT 'A unique MDM address identifier or postal address identifier, MDM ([C_BR_PRTY_RLE_PSTL_ADDR] .PSTL_ADDR_FK or [C_BO_PSTL_ADDR].ROWID_OBJECT',
+	LINE_1_ADDR VARCHAR(200) NULL  COMMENT 'Address line 1',
+	LINE_2_ADDR VARCHAR(100) NULL  COMMENT 'Address line 2',
+	COUNTY_NAME VARCHAR(255) NULL  COMMENT 'Address county',
+	CITY_NAME VARCHAR(50) NULL  COMMENT 'Address city name',
+	STATE_CODE VARCHAR(50) NULL  COMMENT 'Address state code',
+	COUNTRY_CODE VARCHAR(3) NULL ,
+	POSTAL_CODE VARCHAR(10) NULL  COMMENT 'Address postal code',
+	POSTAL_EXTENSION_CODE VARCHAR(10) NULL  COMMENT 'Address postal code extension',
+	LATITUDE_COORDINATES VARCHAR(20) NULL  COMMENT 'Address latitude coordinate',
+	LONGITUDE_COORDINATES VARCHAR(20) NULL  COMMENT 'Address longitude coordinate',
+	ADDR_USAGE_TYPE_DESC VARCHAR(20) NULL  COMMENT 'Description of an address usage, such as Home adress, business address etc',
+	ADDR_TYPE_DESC VARCHAR(20) NULL  COMMENT 'Descrption of an address type, sucha s Home, Office, Billing etc.',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	IS_DELETED_FLAG BYTEINT NULL ,
+	CUSTOMER_ID INT NULL  COMMENT 'System generated unique customer number'
+)
+COMMENT = 'A list of customer mailing addresses. [C_BR_PRTY_RLE_PSTL_ADDR] ';
+
+CREATE OR REPLACE TABLE MDM_CUSTOMER_PHONE
+(
+	MDM_PHONE_ID VARCHAR(20) NULL  COMMENT 'A unique MDM Phone identifier',
+	DATA_SOURCE_CODE VARCHAR(20) NULL  COMMENT 'A code that identifies a data source, such as DLR, GSM, SF etc',
+	PHONE_TYPE_DESC VARCHAR(20) NULL  COMMENT 'Descrption of a phone type, such as telephone etc.',
+	PHONE_USAGE_TYPE_DESC VARCHAR(20) NULL  COMMENT 'Description of a phone usage, such as Home adress, business address etc',
+	PHONE_ID VARCHAR(20) NOT NULL  COMMENT 'A unique MDM address identifier',
+	PHONE_NBR VARCHAR(20) NULL  COMMENT 'Customer personal phone number',
+	PHONE_EXTENSION_NBR VARCHAR(20) NULL  COMMENT 'Phone number extension',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	IS_DELETED_FLAG BYTEINT NULL ,
+	CUSTOMER_ID INT NULL  COMMENT 'System generated unique customer number'
+);
+
+CREATE OR REPLACE TABLE MDM_CUSTOMER_EMAIL
+(
+	MDM_EMAIL_ID VARCHAR(20) NULL  COMMENT 'A unique MDM email identifier',
+	EMAIL_ID VARCHAR(20) NOT NULL  COMMENT 'A unique MDM address identifier',
+	DATA_SOURCE_CODE VARCHAR(20) NULL  COMMENT 'A code that identifies a data source, such as DLR, GSM, SF etc',
+	EMAIL_ADDR VARCHAR(80) NULL  COMMENT 'Customer business email address',
+	EMAIL_TYPE_DESC VARCHAR(20) NULL  COMMENT 'Descrption of an email type, such as email etc.',
+	EMAIL_USAGE_TYPE_DESC VARCHAR(20) NULL  COMMENT 'Description of an email usage, such as Home adress, business address etc',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	IS_DELETED_FLAG BYTEINT NULL ,
+	CUSTOMER_ID INT NULL  COMMENT 'System generated unique customer number'
+);
+
+CREATE OR REPLACE TABLE MDM_CUSTOMER_ALTERNATE
+(
+	ALTERNATE_ID VARCHAR(20) NOT NULL  COMMENT 'A unique MDM alternate identifier',
+	ALTERNATE_ID_VALUE_NBR VARCHAR(50) NULL  COMMENT 'Actual value of the customer alternate identifier in each data source. such as 323332 in ADP',
+	ALTERNATE_ID_TYPE_CODE VARCHAR(30) NULL  COMMENT 'Type of alternate identifiers, such as SF_ID (salesforce), AXM_ID (Salesforce), DLR_ID (Dealership-IDS), VIN_ID (VINSolutions), RTL_ID (Retail - Oracle)',
+	DATA_SOURCE_CODE VARCHAR(20) NULL  COMMENT 'A code that identifies a data source, such as DLR, GSM, SF etc',
+	MDM_ALTERNATE_ID VARCHAR(20) NULL  COMMENT 'A unique MDM alternate identifier',
+	IS_DELETED_FLAG BYTEINT NULL ,
+	CUSTOMER_ID INT NULL  COMMENT 'System generated unique customer number',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime'
+)
+COMMENT = 'Customer Alternate Identifier table stores the alternate identifier details of a party. Alternate identifiers are known identifiers that uniquely identify a party. For examples of alternate identifiers are data sources customer identifiers (SF_ID, AXM_ID, VIN_ID, DLR_ID etc.  membership identifiers. The physical name of the table in MDM is C_BO_PRTY_RLE_ALT_ID.
+';
+
+ALTER TABLE DIM_MDM_CUSTOMER
+	ADD CONSTRAINT XPKMDMCustomer PRIMARY KEY (CUSTOMER_ID);
+
+ALTER TABLE MDM_CUSTOMER_ADDR
+	ADD CONSTRAINT XPKCustomerAddress PRIMARY KEY (ADDR_ID);
+
+ALTER TABLE MDM_CUSTOMER_PHONE
+	ADD CONSTRAINT XPKCustomerPhone PRIMARY KEY (PHONE_ID);
+
+ALTER TABLE MDM_CUSTOMER_EMAIL
+	ADD CONSTRAINT XPKCustomerEmail PRIMARY KEY (EMAIL_ID);
+
+ALTER TABLE MDM_CUSTOMER_ALTERNATE
+	ADD CONSTRAINT XPKCustomerAlternate PRIMARY KEY (ALTERNATE_ID);
+
+ALTER TABLE MDM_CUSTOMER_ADDR
+	ADD CONSTRAINT R_AddrCust FOREIGN KEY (CUSTOMER_ID) REFERENCES DIM_MDM_CUSTOMER (CUSTOMER_ID);
+
+ALTER TABLE MDM_CUSTOMER_PHONE
+	ADD CONSTRAINT R_PhoneCust FOREIGN KEY (CUSTOMER_ID) REFERENCES DIM_MDM_CUSTOMER (CUSTOMER_ID);
+
+ALTER TABLE MDM_CUSTOMER_EMAIL
+	ADD CONSTRAINT R_EmailCust FOREIGN KEY (CUSTOMER_ID) REFERENCES DIM_MDM_CUSTOMER (CUSTOMER_ID);
+
+ALTER TABLE MDM_CUSTOMER_ALTERNATE
+	ADD CONSTRAINT R_AltCust FOREIGN KEY (CUSTOMER_ID) REFERENCES DIM_MDM_CUSTOMER (CUSTOMER_ID);
+
+*********************************Retail Tables********************************************************************************************
+
+CREATE OR REPLACE TABLE DIM_BILL_TO_CUSTOMER
+(
+	BILL_TO_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'System generated bill to unique identifier',
+	FIRST_NAME VARCHAR(100) NULL  COMMENT 'Customer first name',
+	LAST_NAME VARCHAR(100) NULL  COMMENT 'Customer''s last name',
+	FULL_NAME VARCHAR(150) NULL  COMMENT 'Customer full name',
+	LINE_1_ADDR VARCHAR(200) NULL  COMMENT 'Address line 1',
+	LINE_2_ADDR VARCHAR(100) NULL  COMMENT 'Address line 2',
+	CITY_NAME VARCHAR(50) NULL  COMMENT 'Address city name',
+	STATE_CODE VARCHAR(50) NULL  COMMENT 'Address state code',
+	COUNTRY_CODE VARCHAR(3) NULL ,
+	POSTAL_CODE VARCHAR(10) NULL  COMMENT 'Address postal code',
+	BILL_TO_CUSTOMER_NBR VARCHAR(20) NULL  COMMENT 'Oracle Customer account number',
+	CUSTOMER_TYPE_DESC VARCHAR(20) NULL  COMMENT 'Description of customer type such as person, organization',
+	EMAIL_ADDR VARCHAR(100) NULL  COMMENT 'email address',
+	CUSTOMER_CLASS_DESC VARCHAR(50) NULL  COMMENT 'Description of customer class such as standard',
+	HOME_PHONE_NBR VARCHAR(20) NULL  COMMENT 'home phone number',
+	MOBILE_PHONE_NBR VARCHAR(20) NULL  COMMENT 'mobile phone number',
+	OTHER_PHONE_NBR VARCHAR(20) NULL  COMMENT 'Other phone number',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	CUSTOMER_SITE_NBR VARCHAR(20) NULL  COMMENT 'Unique identifier for the customer site'
+);
+
+CREATE OR REPLACE TABLE DIM_COUPON
+(
+	COUPON_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'A unique promotion identifier',
+	COUPON_DESC VARCHAR(50) NULL  COMMENT 'Name of a sales promotion or coupon, such as :
+- DISCOUNTS W/O ASSIGNED CODE
+- LOW PRICE GUARANTEE VS. COMPETITOR
+- LOW PRICE GUARANTEE VS. CW RETAIL
+- DISC RETN-BOUGHT AT RET STORE-NO RECEIPT
+- RAIN CHECK',
+	COUPON_CODE VARCHAR(30) NULL  COMMENT 'A code for a sales promotion
+Coupon Code	Coupon Name
+0	DISCOUNTS W/O ASSIGNED CODE
+1100	$10 OFF PCH--21 MASTER PEEL-OFF--GS, GEO
+1103	$10 OFF PCH--21 MASTER PEEL-OFF--GS CMB/RT 0-
+1104	$10 OFF PCH--21 MASTER PEEL-OFF--GS DIRECT 0-
+1105	$10 OFF PCH--21 MASTER PEEL-OFF--GS CMB/RT 13
+1106	$10 OFF PCH--21 MASTER PEEL-OFF--GS CMB/RT 19
+1107	$10 OFF PCH--21 MASTER PEEL-OFF--NGS BYR & PR
+1109	$10 OFF PCH--21 MASTER PC--GS CMB/RT 0-12
+1110	$10 OFF PCH--21 MASTER PC--GS DIRECT 0-18
+1111	GOOD SAM MEMBER DISCOUNT
+1112	XTRA 5% OFF INSTALLATION--GS ELITE MEMBERS
+1113	$29 INSTALL--GSC BENEFIT
+1114	$10 OFF PCH--21 MASTER PC--GS CMB/RT 13-18
+1115	$39 INSTALL--GSC BENEFIT
+1116	$149 INSTALL--GSC BENEFIT
+1117	$59 INSTALL--GSC BENEFIT
+1118	$79 INSTALL--GSC BENEFIT
+1119	$10 OFF PCH--21 MASTER PC--GS CMB/RT 19-24
+1120	$10 OFF PCH--21 MASTER PC--NGS BYR & PROSP
+',
+	CAMPAIGN_START_DATE DATE NULL  COMMENT 'Promotion begin date',
+	CAMPAIGN_END_DATE DATE NULL  COMMENT 'Promotion end date',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	CAMPAIGN_TYPE_CODE INT NULL  COMMENT 'A code identifying a promotion group, such as:
+- 235
+- 234
+- 232
+- 210',
+	COUPON_CHANNEL_DESC VARCHAR(250) NULL  COMMENT 'Description of coupon channel, such as: RETAIL, CC/RETAIL
+ ',
+	COUPON_LEVEL_TYPE_DESC VARCHAR(10) NULL  COMMENT 'A code for transaction level types, such as 
+- line
+- Order',
+	CAMPAIGN_CODE VARCHAR(4) NULL  COMMENT 'A code for a campaign, such as 
+002 
+050 
+040 
+017 
+020 ',
+	CAMPAIGN_DESC VARCHAR(50) NULL  COMMENT 'Description of a campaign, such as:
+DISCOUNT MENU DROP-DOWN LIST            
+10 MAY CATALOG                          
+10 FEBRUARY RVVIEW                      
+10 SUMMER CATALOG                       
+10 EARLY SPRING CATALOG                 
+11 FALL CATALOG                         ',
+	COUPON_STATUS_DESC VARCHAR(10) NULL  COMMENT 'Description of promotion status, such as 
+VERIFIED',
+	MEMBERSHIP_REQUIRED_IND VARCHAR(3) NULL  COMMENT 'A flag that indicates a membership coupon',
+	COUPON_START_DATE DATE NULL  COMMENT 'Coupon start date',
+	COUPON_END_DATE DATE NULL  COMMENT 'Coupon end date',
+	APPLICATION_METHOD_DESC VARCHAR(20) NULL  COMMENT 'Description of how a coupon is applied to a transaction, such as Amount, percent',
+	COUPON_REQUIRED_IND VARCHAR(5) NULL  COMMENT 'An indicator for ''is coupon required''',
+	COUPON_DISCOUNT_VALUE INT NULL  COMMENT 'Amount of discount applied or percentage discounted',
+	MINIMUM_ITEM_AMT VARCHAR(20) NULL  COMMENT 'Minimum item amount',
+	MINIMUM_ORDER_AMT INT NULL  COMMENT 'Minimum order amount'
+)
+COMMENT = 'A Coupon is the discount applied to a sale, this include the goodsam membership
+Coupon Code	Coupon Name
+0	DISCOUNTS W/O ASSIGNED CODE
+1100	$10 OFF PCH--21 MASTER PEEL-OFF--GS, GEO
+1103	$10 OFF PCH--21 MASTER PEEL-OFF--GS CMB/RT 0-
+1104	$10 OFF PCH--21 MASTER PEEL-OFF--GS DIRECT 0-
+1105	$10 OFF PCH--21 MASTER PEEL-OFF--GS CMB/RT 13
+1106	$10 OFF PCH--21 MASTER PEEL-OFF--GS CMB/RT 19
+1107	$10 OFF PCH--21 MASTER PEEL-OFF--NGS BYR & PR
+1109	$10 OFF PCH--21 MASTER PC--GS CMB/RT 0-12
+1110	$10 OFF PCH--21 MASTER PC--GS DIRECT 0-18
+1111	GOOD SAM MEMBER DISCOUNT
+1112	XTRA 5% OFF INSTALLATION--GS ELITE MEMBERS
+1113	$29 INSTALL--GSC BENEFIT
+1114	$10 OFF PCH--21 MASTER PC--GS CMB/RT 13-18
+1115	$39 INSTALL--GSC BENEFIT
+1116	$149 INSTALL--GSC BENEFIT
+1117	$59 INSTALL--GSC BENEFIT
+1118	$79 INSTALL--GSC BENEFIT
+1119	$10 OFF PCH--21 MASTER PC--GS CMB/RT 19-24
+1120	$10 OFF PCH--21 MASTER PC--NGS BYR & PROSP
+';
+
+CREATE OR REPLACE TABLE DIM_DATE
+(
+	DATE_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'A unique date identifier',
+	CALENDAR_DATE DATE NULL  COMMENT 'Calendar date',
+	DAY_OF_WEEK_NAME VARCHAR(20) NULL  COMMENT 'Day of week',
+	CALENDAR_MONTH_NBR NUMBER(2) NULL  COMMENT 'Day number in calendar month',
+	FISCAL_MONTH_NBR NUMBER(2) NULL  COMMENT 'Day number in fiscal month',
+	HOLIDAY_IND VARCHAR(1) NULL  COMMENT 'Holiday indicator',
+	FISCAL_YEAR_NBR NUMBER(4) NULL  COMMENT 'Fiscal year number',
+	WEEKEND_IND VARCHAR(1) NULL  COMMENT 'Weekday indicator',
+	CALENDAR_YEAR_NBR NUMBER(4) NULL  COMMENT 'Calendar year number',
+	WEEK_OF_YEAR_NBR NUMBER(3) NULL  COMMENT 'Week of year',
+	FISCAL_QUATER_NBR NUMBER(2) NULL  COMMENT 'Fiscal quater number',
+	CALENDAR_QUATER_NBR NUMBER(2) NULL  COMMENT 'Calendar quater number',
+	WEEKDAY_DESC VARCHAR(20) NULL  COMMENT 'Weekday Name, such as Monday, wednesday, thurdays etc',
+	SEASON_DESC VARCHAR(20) NULL  COMMENT 'Season description, such as summer, winter, fall, spring',
+	MONTH_DESC VARCHAR(10) NULL  COMMENT 'Description of month, such as January, February, March etc.',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	FISCAL_DAY_OF_YEAR_NBR NUMBER(3) NULL  COMMENT 'Fiscal Day of year number',
+	CALENDAR_DAY_OF_YEAR_NBR NUMBER(3) NULL  COMMENT 'Calendar day of year number',
+	DAY_OF_WEEK_NBR NUMBER(3) NULL  COMMENT 'Day of week number',
+	LASY_YEAR_FISCAL_DATE DATE NULL  COMMENT 'Last year fiscal date',
+	LASY_YEAR_CALENDAR_DATE DATE NULL  COMMENT 'Last year calendar date',
+	FISCAL_DAY_OF_QUATER_NBR NUMBER(3) NULL  COMMENT 'Fiscal day of quater number',
+	FISCAL_DAY_OF_MONTH_NBR NUMBER(3) NULL  COMMENT 'Fiscal day of month ',
+	L2Y_FISCAL_DATE DATE NULL  COMMENT 'Prior last 2 years fiscal date',
+	FISCAL_MONTH_START_DATE DATE NULL  COMMENT 'Date for start of fiscal month',
+	REPORTING_FISCAL_MONTH_START_DATE DATE NULL  COMMENT 'Date for reporting start of fiscal month',
+	REPORTING_FISCAL_WEEK_NBR INT NULL  COMMENT 'Number idenfiying reporting Fiscal Week',
+	REPORTING_FISCAL_MONTH_NBR INT NULL  COMMENT 'Number idenfiying reporting Fiscal month',
+	REPORTING_FISCAL_QUATER_NBR INT NULL  COMMENT 'Number idenfiying reporting Fiscal quater',
+	REPORTING_FISCAL_YEAR_NBR INT NULL  COMMENT 'Number idenfiying reporting Fiscal year',
+	LY_FISCAL_MONTH_START_DATE DATE NULL  COMMENT 'last year fiscal month start date',
+	FISCAL_YEAR_START_DATE DATE NULL  COMMENT 'Date for start of fiscal year',
+	REPORTING_FISCAL_YEAR_START_DATE DATE NULL  COMMENT 'Date for reporting start of fiscal year',
+	LY_FISCAL_YEAR_START_DATE DATE NULL  COMMENT 'last year fiscal year start date',
+	FISCAL_QUATER_START_DATE DATE NULL  COMMENT 'Date for start of fiscal quater',
+	LY_FISCAL_QUATER_START_DATE DATE NULL  COMMENT 'last year fiscal quater start date'
+)
+COMMENT = 'Calender date dimension table';
+
+CREATE OR REPLACE TABLE DIM_EMPLOYEE
+(
+	EMPLOYEE_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'A unique database identifier for sales associates',
+	ADP_EMPLOYEE_NBR VARCHAR(30) NULL  COMMENT 'A number that identifies a sales number, such as ADP number',
+	EMPLOYEE_NAME VARCHAR(80) NULL  COMMENT 'Employee full name',
+	ADP_JOB_TITLE_NAME VARCHAR(150) NULL  COMMENT 'Employee''s job title name, such as Retail Sales Associate, IT Support, BG Tech Agent etc',
+	FIRST_NAME VARCHAR(50) NULL  COMMENT 'First name of sales associate',
+	MIDLE_NAME VARCHAR(50) NULL  COMMENT 'middle name of sales associate',
+	LAST_NAME VARCHAR(50) NULL  COMMENT 'Last name of sales associate',
+	GENDER_DESC VARCHAR(20) NULL  COMMENT 'Sales associate gender',
+	AGE_RANGE VARCHAR(20) NULL  COMMENT 'Age range of sales associate',
+	HOURLY_SALARY_DESC VARCHAR(20) NULL  COMMENT 'description of sales associate wage-earning compensation, such as hourly, salary',
+	EMPLOYEE_STATUS_DESC VARCHAR(20) NULL  COMMENT 'Status of sales associate, such as Active, retired, terminated',
+	ORGINAL_HIRE_DATE DATE NULL  COMMENT 'Original hire date for sales associate',
+	RECENT_REHIRE_DATE DATE NULL  COMMENT 'Most recent rehire date',
+	RECENT_TERMINATION_DATE DATE NULL  COMMENT 'Most recent termination date',
+	LOCATION_CODE VARCHAR(10) NULL  COMMENT 'A code that identifies a Camping world location, such as 
+- FAY
+- CW013
+- CW016
+- CW000
+- GS061
+- CW042
+- HHC
+',
+	COMPANY_NAME VARCHAR(50) NULL  COMMENT 'Name of line of busines company, such as 
+- FreedomRoads, LLC
+- Camping World, INC
+- Good Sam Enterprises',
+	LOCATION_NAME VARCHAR(80) NULL  COMMENT 'Name of camping world location, such as 
+- Hope Mills,NC
+- Mesa,AZ
+- Dover,FL
+- Bowling Green,KY
+- Spartanburg,SC
+- Lincolnshire,IL
+
+',
+	LOCATION_STATE_CODE VARCHAR(3) NULL  COMMENT 'A code that identifies a location state
+- NC
+- AZ
+- KY
+- SC
+- IL
+',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	USER_NAME VARCHAR(60) NULL  COMMENT 'Username of an employee, usually the name before the ''@'' in the email address',
+	EMPLOYEE_EMAIL_ADDR VARCHAR(150) NULL  COMMENT 'Employee email address',
+	DOMAIN_NAME VARCHAR(100) NULL  COMMENT 'Username domain name such as FREEDOMROADS',
+	PAY_GROUP_CODE VARCHAR(20) NULL  COMMENT 'Code idenfying employee pay group. such as CCW',
+	JOB_TITLE_CODE VARCHAR(20) NULL  COMMENT 'A Code identifying an employee''s job title',
+	ADP_MANAGER_NBR VARCHAR(30) NULL  COMMENT 'Number for employee''s manager',
+	MANAGER_NAME VARCHAR(200) NULL  COMMENT 'Name of employee''s manager',
+	WORK_EMAIL_ADDR VARCHAR(150) NULL  COMMENT 'Employee work email address',
+	DEPARTMENT_CODE VARCHAR(30) NULL  COMMENT 'A code identifying an employee''s depart. such as CW000, 06 etc',
+	REGULAR_TEMPORARY_CODE VARCHAR(10) NULL  COMMENT 'A code identifying an employee''s work type, such as regular or temporary',
+	FILE_NBR VARCHAR(20) NULL  COMMENT 'File number associated with employee record',
+	FULL_PART_TIME_DESC VARCHAR(20) NULL  COMMENT 'Description of employee''s work status, such as full-time or part-time',
+	PREFIX_NAME VARCHAR(20) NULL  COMMENT 'Prefix name',
+	SUFFIX_NAME VARCHAR(20) NULL  COMMENT 'employee name suffix',
+	WORK_PHONE_NBR VARCHAR(20) NULL  COMMENT 'Employee work phone number',
+	WORK_LINE_1_ADDR VARCHAR(150) NULL  COMMENT 'work address line 1',
+	WORK_LINE_2_ADDR VARCHAR(100) NULL  COMMENT 'work address line 2',
+	WORK_CITY_NAME VARCHAR(80) NULL  COMMENT 'Name of city',
+	WORK_STATE_CODE VARCHAR(20) NULL  COMMENT 'state code',
+	WORK_POSTAL_CODE VARCHAR(20) NULL  COMMENT 'address postal code',
+	REPORTING_LOCATION_CODE VARCHAR(255) NULL  COMMENT 'Reporting location code',
+	SYSTEM_EMPLOYEE_CODE VARCHAR(20) NULL  COMMENT 'Code used in the source system to identify an employee, such as salesman code in ids'
+)
+COMMENT = 'The employee table contains all Camping world employees excluding corporate employees';
+
+CREATE OR REPLACE TABLE DIM_LOCATION
+(
+	LOCATION_CODE VARCHAR(20) NULL  COMMENT 'Code for a store location, such as 0001',
+	LOCATION_NAME VARCHAR(50) NULL  COMMENT 'Name of store location, such as Bakersfield, Bowling Green etc.',
+	LOCATION_ADDR VARCHAR(100) NULL  COMMENT 'Location adddress',
+	CITY_NAME VARCHAR(50) NULL  COMMENT 'Name of city for store location address ',
+	STATE_NM VARCHAR(50) NULL  COMMENT 'Name of state for store location address ',
+	POSTAL_CD VARCHAR(12) NULL  COMMENT 'Postal code of store location address ',
+	COUNTRY_CODE VARCHAR(10) NULL  COMMENT 'Country code',
+	SSVY_REPORTING_STATE_FLAG VARCHAR(3) NULL  COMMENT 'SSVY reporting state flag',
+	LATITUDE_COORDINATES DECIMAL(12,6) NULL  COMMENT 'Latitude coordinates',
+	LONGITUDE_COORDINATES DECIMAL(12,6) NULL  COMMENT 'Longitude coordinates',
+	LATITUDE_LONGITUDE_COORDINATES VARCHAR(30) NULL  COMMENT 'location lat/long coordinates',
+	DEALERSHIP_FLAG VARCHAR(3) NULL  COMMENT 'Store location dealership flag',
+	STATE_CODE VARCHAR(5) NULL  COMMENT 'State Code',
+	INCLUDE_IN_STORE_FLAG CHAR(1) NULL  COMMENT 'Include in store count indicator',
+	OPERATING_OPEN_DATE DATE NULL  COMMENT 'The date when location opened for sale, it is used to calculate TTM location staus',
+	MONTH_OPEN_COUNT DECIMAL(6) NULL  COMMENT 'Number of months store location has been opened.',
+	STATUS_DESC VARCHAR(20) NULL  COMMENT 'Status location of store location, such as same store, closed etc',
+	TTM_STATUS_DESC VARCHAR(20) NULL  COMMENT 'Trailing 12 months store location status description. such as same store, closed etc. If a location was opened during the current year TTM (trailing twelve months) or the prior year TTM, then it is considered a new store for TTM purposes as it needs to have been open for a full 12 months during both TTM periods to be comparable.',
+	CONFIGURATION_STATUS_DESC VARCHAR(20) NULL  COMMENT 'Description of store location configuration status, such as co-located, standalone etc.',
+	DIVISIONAL_PRESIDENT_NAME VARCHAR(50) NULL  COMMENT 'Store location division president name',
+	REPORTING_LOCATION_NAME VARCHAR(50) NULL  COMMENT 'Reporting location name combining both dealership and retail names and codes, such as 
+Valencia (AMRV, 0004)
+La Mirada (0005)
+Vacaville (VAC, 0006)
+Denton (DEN, 0007)
+Ft. Myers (FTM, 0008)
+Bakersfield (SLV, 0009)
+',
+	GENERAL_MANAGER_NAME VARCHAR(50) NULL  COMMENT 'Store location general manager name',
+	MARKETING_MANAGER_NAME VARCHAR(50) NULL  COMMENT 'Store location marketing manager name',
+	MARKETING_BRAND_NAME VARCHAR(50) NULL  COMMENT 'Name of store location marketing brand, such as Gander RV, RV world etc.',
+	LOCATION_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'Unique location identifier',
+	CLOSE_DATE DATE NULL  COMMENT 'Date location closed. The store Map file was created in Q1 2019, so only store closures that occured in 2018 going forward are listed (not all closings throughout history).',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	LINE_OF_BUSINESS_NAME VARCHAR(20) NULL  COMMENT 'Name of line of business, such as Dealership, Retail, GoodSam.',
+	TEN_QK_STORE_GROUP_DESC VARCHAR(40) NULL  COMMENT 'Description of 10Q/K store group. 10K is generally audited report. 10Q is an unaudited report. SEC filing needs to be done within 90 days after the end of the company''s fiscal year. SEC filing needs to be done within 45 days after the end of the company''s fiscal quarter.
+Such as 
+Co-Located
+Retail and RV Service
+',
+	ADP_LOCATION_CODE VARCHAR(20) NULL  COMMENT 'Code that identifies a unique ADP location. such as CW001',
+	ROLLUP_LOCATION_CODE VARCHAR(20) NULL  COMMENT 'This is non-unique and combines certain LOC_CD that are really the same location (ex.  BBR/BFI/HL are all the same location [HL] but certain parts of it need to be tracked separately per Michigan State regulations, hence the reason for the 3 LOC_CDs).',
+	FI_REGION_VICE_PRESIDENT_NAME VARCHAR(50) NULL  COMMENT 'Name of F&I region vice president',
+	REGION_SERVICE_DIRECTOR_NAME VARCHAR(50) NULL  COMMENT 'Name of region service director',
+	RETAIL_REGION_DESC VARCHAR(100) NULL  COMMENT 'Description of region,such as West, East, South, North etc',
+	RETAIL_MARKET_CODE INT NULL  COMMENT 'Code that identifies a retail market, such as 1, 2, 3, 4, etc',
+	RETAIL_REGIONAL_VICE_PRESIDENT_NAME VARCHAR(80) NULL  COMMENT 'Name of retail regional vice president',
+	RETAIL_MARKET_DIRECTOR_NAME VARCHAR(80) NULL  COMMENT 'Name of retail market director',
+	TEN_K_LOCATION_STATUS_DESC VARCHAR(20) NULL  COMMENT 'Description of 10K location status, such as closed, newstore, samestore',
+	SERVICE_MANAGER_NAME VARCHAR(80) NULL  COMMENT 'Name of location service manager',
+	SALES_MANAGER_1_NAME VARCHAR(80) NULL  COMMENT 'Name of location sales manager (first approver in salesforce)',
+	PART_ACCESSORIES_SALES_MANAGER_NAME VARCHAR(80) NULL  COMMENT 'Name of Part & Accessories Sales Manager',
+	PART_ACCESSORIES_REGIONAL_DIRECTOR_NAME VARCHAR(80) NULL  COMMENT 'Name of regional Part & Accessories director',
+	WEBSITE_LOCATION_NAME VARCHAR(400) NULL  COMMENT 'Name of location on websites, such as
+- Camping World of Wilsonville - Parts & Accessories
+- Gander RV & Outdoors of Denver
+- Camping World of Jacksonville',
+	WEBSITE_LOCATION_ID VARCHAR(20) NULL  COMMENT 'A unique identifier for website location, such as podium location id',
+	LOCATION_DEALER_NBR VARCHAR(20) NULL  COMMENT 'Location number used to identify a dealership. VINSolutions dealer id. such as 
+dealerid   GLCode
+17758	ABRV
+17865	AGA
+17828	AIR
+18365	ALNY
+17838	AMRV
+17858	ANA
+17886	AOK
+17873	APA
+17762	ARV
+17781	ASH
+17879	ATX
+17759	AVO
+17737	BBCA
+18223	BBL
+17732	BGA
+',
+	BUILDING_SQUARE_FOOTAGE INT NULL  COMMENT 'Location building sqft',
+	SELLING_SQUARE_FOOTAGE INT NULL  COMMENT 'Location selling sqft',
+	SELL_FIREARM_FLAG VARCHAR(20) NULL  COMMENT 'Flag for sell firearms',
+	LOCATION_PHONE_NBR VARCHAR(20) NULL  COMMENT 'Location phone number',
+	LOCATION_TIMEZONE VARCHAR(20) NULL  COMMENT 'Location timezone, such as PST,CST etc',
+	DISTRIBUTION_CENTER_CODE VARCHAR(20) NULL  COMMENT 'Code for location distribution center',
+	OPERATING_STATUS_DESC VARCHAR(20) NULL  COMMENT 'Store operating status from salesforce',
+	REGIONAL_VICE_PRESIDENT_NAME VARCHAR(80) NULL  COMMENT 'RVP name',
+	SALES_MANAGER_2_NAME VARCHAR(80) NULL  COMMENT 'Sales manager 2 name',
+	SALES_MANAGER_3_NAME VARCHAR(80) NULL  COMMENT 'Sales manager 3 name',
+	SALES_MANAGER_4_NAME VARCHAR(80) NULL  COMMENT 'Sales manager 4 name',
+	FI_MANAGER_1_NAME VARCHAR(80) NULL  COMMENT 'Finance & Insurance Manager 1 Name',
+	FI_MANAGER_2_NAME VARCHAR(80) NULL  COMMENT 'Finance & Insurance Manager 2 Name',
+	FI_MANAGER_3_NAME VARCHAR(80) NULL  COMMENT 'Finance & Insurance Manager 3 Name',
+	FI_MANAGER_4_NAME VARCHAR(80) NULL  COMMENT 'Finance & Insurance Manager 4 Name',
+	BDC_MANAGER_NAME VARCHAR(80) NULL  COMMENT 'BDC manager name',
+	REGIONAL_BDC_NAME VARCHAR(80) NULL  COMMENT 'Name of regional BDC ',
+	WARRANTY_ADMIN_NAME VARCHAR(80) NULL  COMMENT 'Name for location Warranty Admin',
+	PARTS_MANAGER_NAME VARCHAR(80) NULL  COMMENT 'Name for location parts manager',
+	COLLISION_BAY_COUNT INT NULL  COMMENT 'Count of location sections allocated for collision',
+	SERVICE_BAY_COUNT INT NULL  COMMENT 'Count of location sections allocated for service',
+	FI_REGION_DIRECTOR_1_NAME VARCHAR(80) NULL  COMMENT 'Name of Regional Finance & Insurance Director1'
+)
+COMMENT = 'Camping World location data. This table contains location data from all lines of business (Dealership, Retail & GoodSam). Geographics are used by businesses to market their goods from the local to the national level. Geographic segmentation is a common strategy when you serve customers in a particular area, or when your broad target audience has different preferences based on where they are located. It involves grouping potential customers by country, state, region, city or even neighborhood.';
+
+CREATE OR REPLACE TABLE DIM_MDM_CUSTOMER
+(
+	CUSTOMER_ID INT NOT NULL  COMMENT 'System generated unique customer number',
+	PREFIX_NAME VARCHAR(10) NULL  COMMENT 'Customer name prefix, such as Mr.',
+	FIRST_NAME VARCHAR(100) NULL  COMMENT 'Customer first name',
+	MIDDLE_NAME VARCHAR(100) NULL  COMMENT 'Customer''s middle name',
+	LAST_NAME VARCHAR(100) NULL  COMMENT 'Customer''s last name',
+	BIRTH_DATE DATE NULL  COMMENT 'Date of birth',
+	TITLE_NAME VARCHAR(50) NULL  COMMENT 'Customer title',
+	CUSTOMER_TYPE_DESC VARCHAR(255) NULL  COMMENT 'Description of a customer type, such as person or company',
+	SUFFIX_NAME VARCHAR(10) NULL  COMMENT 'Customer name suffix, such as Sr.',
+	FULL_NAME VARCHAR(150) NULL  COMMENT 'Customer full name',
+	GENDER_CODE VARCHAR(5) NULL  COMMENT 'Code that identifies a customer''s gender, such as F,M,U',
+	CUSTOMER_IND VARCHAR(1) NULL  COMMENT 'Customer indicator',
+	RV_TYPE_CODE VARCHAR(20) NULL  COMMENT 'A code identifying type of customer RV',
+	BUSINESS_EMAIL_ADDR VARCHAR(80) NULL  COMMENT 'Customer business email address',
+	PERSONAL_EMAIL_ADDR VARCHAR(80) NULL  COMMENT 'Customer personal email address',
+	BUSINESS_PHONE_NBR VARCHAR(20) NULL  COMMENT 'Customer business phone number',
+	PERSONAL_PHONE_NBR VARCHAR(20) NULL  COMMENT 'Customer personal phone number',
+	LINE_1_ADDR VARCHAR(200) NULL  COMMENT 'Address line 1',
+	LINE_2_ADDR VARCHAR(100) NULL  COMMENT 'Address line 2',
+	COUNTY_NAME VARCHAR(255) NULL  COMMENT 'Address county',
+	CITY_NAME VARCHAR(50) NULL  COMMENT 'Address city name',
+	STATE_CODE VARCHAR(50) NULL  COMMENT 'Address state code',
+	COUNTRY_CODE VARCHAR(3) NULL ,
+	POSTAL_CODE VARCHAR(10) NULL  COMMENT 'Address postal code',
+	POSTAL_EXTENSION_CODE VARCHAR(10) NULL  COMMENT 'Address postal code extension',
+	LATITUDE_COORDINATES VARCHAR(20) NULL  COMMENT 'Address latitude coordinate',
+	LONGITUDE_COORDINATES VARCHAR(20) NULL  COMMENT 'Address longitude coordinate',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	MDM_CUSTOMER_ID VARCHAR(20) NULL  COMMENT 'A unique MDM customer identifier',
+	DATA_SOURCE_CODE VARCHAR(20) NULL  COMMENT 'A code that identifies a data source, such as DLR, GSM, SF etc',
+	IS_DELETED_FLAG BYTEINT NULL  COMMENT 'Flag that indicates if a record is deleted. such as 0 - not deleted (valid record); 1 - deleted (invalid record)'
+)
+COMMENT = 'Customer personal attributes. Data help to understand who their customers are. common customer demographics for business purposes include age, gender, education level, marital status, ethnicity,family status,household income, occupation and hobbies. 
+These demographic factors can influence how to market your target audience.';
+
+CREATE OR REPLACE TABLE DIM_MEMBERSHIP
+(
+	MEMBERSHIP_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'A system unique identifier',
+	MEMBERSHIP_TYPE_CODE VARCHAR(20) NULL  COMMENT 'A code of a membership type, such as roadside membership, GoodSam',
+	MEMBERSHIP_NBR VARCHAR(20) NULL  COMMENT 'Goodsam membership number',
+	EMAIL_ADDR VARCHAR(100) NULL  COMMENT 'email address on a membership',
+	FIRST_NAME VARCHAR(20) NULL  COMMENT 'Primary member first name',
+	LAST_NAME VARCHAR(20) NULL  COMMENT 'Primary member last name',
+	FULL_NAME VARCHAR(100) NULL  COMMENT 'Primary member full name',
+	CELL_PHONE_NBR VARCHAR(15) NULL  COMMENT 'Primary member Cell phone number',
+	CONTACT_ADDR VARCHAR(75) NULL  COMMENT 'Primary member contact address',
+	CITY_NAME VARCHAR(50) NULL  COMMENT 'Primary member City Name',
+	STATE_NAME VARCHAR(50) NULL  COMMENT 'Primary member state name',
+	POSTAL_ZIP_CODE VARCHAR(26) NULL  COMMENT 'Primary member Zip or Postal code',
+	COUNTRY_CODE VARCHAR(30) NULL  COMMENT 'Primary member country name',
+	MEMBERSHIP_EFFECTIVE_DATE DATE NULL  COMMENT 'Effective date of a customer GoodSam membership',
+	MEMBERSHIP_EXPIRATION_DATE DATE NULL  COMMENT 'Expiration date of a customer GoodSam membership',
+	MEMBERSHIP_RENEWAL_DATE DATE NULL  COMMENT 'Renewal date of a customer GoodSam membership',
+	MEMBERSHIP_STATUS_DESC VARCHAR(20) NULL  COMMENT 'Description of member status, such as active, pending etc',
+	BENEFIT_LEVEL_DESC VARCHAR(100) NULL  COMMENT 'Description of such as 1,2,3,4',
+	MEMBERSHIP_TYPE_TERM_DESC VARCHAR(20) NULL  COMMENT 'Description of a membership type term, such as R for regular and L for lifetime. also known as membership attribute',
+	MEMBERSHIP_TERM_DURATION_DESC VARCHAR(20) NULL  COMMENT 'Description of membership term, such as 12month etc',
+	CUSTOMER_NBR VARCHAR(20) NULL  COMMENT 'Primary customer number',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime'
+)
+COMMENT = 'A list of Goodsam membership such as 
+Good Sam membership
+Good Sam TravelAssist Plans 
+Good Sam Rewards Credit Card
+Good Sam Tire & Wheel Protection (Auto)
+Good Sam Product Protection
+Good Sam Finance Center
+RV and Boat Loan Center
+';
+
+CREATE OR REPLACE TABLE DIM_OMNI_CHANNEL
+(
+	OMNI_CHANNEL_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'A system generated unique identifier',
+	OMNI_CHANNEL_CODE VARCHAR(10) NULL  COMMENT 'A code that identifies an Omni journey channel, such as 0 for none
+OMNI journeys (channels) are currently 
+Buy Online Ship to customer
+Buy Online, Pickup in Store
+Buy Online, Ship From Store
+There are a number of future journeys that will be enabled.  These are NOT enabled at this time.
+                Buy Online, Delivery (same day delivery)
+                Buy in one store, pickup in another store
+                But in store, ship to customer 
+                Maybe another ??',
+	OMNI_CHANNEL_DESC VARCHAR(80) NULL  COMMENT 'OMNI journeys (channels) are currently 
+Buy Online Ship to customer
+Buy Online, Pickup in Store
+Buy Online, Ship From Store
+There are a number of future journeys that will be enabled.  These are NOT enabled at this time.
+                Buy Online, Delivery (same day delivery)
+                Buy in one store, pickup in another store
+                But in store, ship to customer 
+                Maybe another ??
+                
+The OMNI journeys enabled thus far will show as web order types in the data.
+The distinction is generally made as to there the product “ships from”
+We have a couple fields in the order lines view that can be provide that will show the broker action and status 
+',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime'
+)
+COMMENT = 'Omni journey channel, such as 0 for none
+OMNI journeys (channels) are currently 
+Buy Online Ship to customer
+Buy Online, Pickup in Store
+Buy Online, Ship From Store
+There are a number of future journeys that will be enabled.  These are NOT enabled at this time.
+                Buy Online, Delivery (same day delivery)
+                Buy in one store, pickup in another store
+                But in store, ship to customer 
+                Maybe another ??';
+
+CREATE OR REPLACE TABLE DIM_PRODUCT
+(
+	SKU_NBR VARCHAR(40) NULL  COMMENT 'Stock Keeping Unit is a number that uniquely identifies a product for managing inventory, such as dealership (asset), Retail (item number), membership(service plan)',
+	MANUFACTURER_PART_NBR VARCHAR(40) NULL  COMMENT 'The Manufacturer assigned SerialNumber for this RV. or Retail Universal Product Codes',
+	MANUFACTURER_NAME VARCHAR(30) NULL  COMMENT 'The name of the Manufacturer, Such as Airstream, Aliner, American Coach etc.',
+	MODEL_NAME VARCHAR(60) NULL  COMMENT 'The name of the Manufacturer Model, such as 16U, Ascape, LXE, Scout etc..',
+	INTERIOR_COLOR_DESC VARCHAR(50) NULL  COMMENT 'Description of RV interior color',
+	EXTERIOR_COLOR_DESC VARCHAR(50) NULL  COMMENT 'Exterior color description',
+	DESIGNATION_DESC VARCHAR(50) NULL  COMMENT 'Designation either new, used etc. designation description, such that GLDesignation = if SaleType = ‘W’ then ‘U’ else DesignationDecription
+''U'' represent ''used'' ',
+	PRODUCT_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'A unique system assigned identifier for the dealership''s RV.',
+	SUB_CLASS_CODE VARCHAR(80) NULL  COMMENT 'A code that uniquely identifies a subclass. it is a concatenation of ''ManufacturerName''+''Brand''+''Model''. Such as 
+RV
+ - AIRSTREAMNEST16U
+ - AIRSTREAMSPORT16RB
+ - AIRSTREAMSPORT22FB
+ - AIRSTREAMTOMMY BAHAMA RELAX EDITION19CB
+ - AIRSTREAMTOMMY BAHAMA RELAX EDITION27FB
+Numberical code for the sub class classification of the item
+Retail
+ - 969700
+ - 296550
+',
+	PRODUCT_LENGTH NUMBER(14,5) NULL  COMMENT 'Product/Item shipping/DC storage length',
+	BRAND_DESC VARCHAR(50) NULL  COMMENT 'Description of a product brand RV, such as Nest, Sport, Tommy Bahama Relax Edition, Somerset, Dream, Alphine, Allegiance etc.
+Retail: CW Brand for the item - Camping World, Overtons or Gander',
+	MODEL_YEAR INT NULL  COMMENT 'The year model was was manufactured.',
+	PRODUCTION_DATE DATE NULL  COMMENT 'Dealership - date loan was approved by the bank.
+Retail - Item creation date',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	CLASS_DESC VARCHAR(250) NULL  COMMENT 'Description of Asset type or retail class
+Asset Type such as Towable or Motorized
+
+Retail Class
+NON-MDSE / OTHER
+BIKE ACCESSORIES
+DUSTERS / BROOMS
+BATH
+MISCELLANEOUS
+ROOF VENTS',
+	PRODUCT_STATUS_CODE VARCHAR(10) NULL  COMMENT 'A code that identfies a product lifecycle states - e.g. Active, Discontinued, Inactive
+- Retail product is active -act, inactive - ina and discontinued -dis',
+	EXCLUSIVE_FLAG VARCHAR(5) NULL  COMMENT 'Flag indicating if product is exclusive.',
+	PLANT_LOCATION_STATE_CODE VARCHAR(3) NULL  COMMENT 'A code for plant location state. such as IN, OH, PA etc',
+	PRODUCT_DESC VARCHAR(240) NULL  COMMENT 'Description of a product such as FloorPlan or Item
+A name for a floorplan such as 
+Asset Names
+ - Front Dinette
+ - Rear Bath
+ - Front Dinette
+ - Rear Dinette
+ - A-Frame
+ - Tent Camper
+ - Pop-up
+
+Retail Item Name/Description
+ - BADSEY W/SEAT-R
+ - WHISK BROOM
+ - SANI-FONE
+ - MACH REPL-SMK
+ - VENT W/LIGHT&FAN
+ - STEP CHEVY/DODGE
+ - STEP 80-88 FORD
+ - CANOPY',
+	PRODUCT_GROUP_NAME VARCHAR(40) NULL  COMMENT 'A name for floor plan group, such as 
+ - Small Travel Trailer
+ - Expandable Trailer
+ - 3/4 Ton Couples Fifth Wheel
+ - Diesel Motorhome
+
+Firearm action, such as Revolver, bolt action, semi automatic etc',
+	SLIDE_OUTS_NBR NUMBER(2) NULL  COMMENT 'A number for slideouts, such as 1,2,3,4,5 etc.',
+	AXLES_NBR NUMBER(2) NULL  COMMENT 'A number for axles, such as 1, 2, 3',
+	DRY_WEIGHT NUMBER(8) NULL  COMMENT 'Weight of the product. ',
+	GVWR_RATE NUMBER(8) NULL  COMMENT 'The gross vehicle weight rating (GVWR), or gross vehicle mass (GVM) is the maximum operating weight/mass of a vehicle as specified by the manufacturer including the vehicle''s chassis, body, engine, engine fluids, fuel, accessories, driver, passengers and cargo but excluding that of any trailers.',
+	GCWR_RATE NUMBER(8) NULL  COMMENT 'The gross combined weight rating or gross combination weight rating (GCWR), also referred to as the gross combination mass (GCM), gross train weight (GTW), or maximum authorised mass (MAM), is the maximum allowable combined mass of a road vehicle, the passengers and cargo in the tow vehicle, plus the mass of the trailer and cargo in the trailer.[1][2] This rating is set by the vehicle manufacturer.',
+	GARAGE_LENGTH NUMBER(5) NULL  COMMENT 'Garage length ',
+	PRODUCT_HEIGHT NUMBER(14,5) NULL  COMMENT 'Product /Item shipping/DC storage height',
+	PRODUCT_WIDTH NUMBER(14,5) NULL  COMMENT 'Product/Item shipping/DC storage width',
+	PRODUCT_WEIGHT NUMBER(14,5) NULL  COMMENT 'Hitch weight or retail weight in LB',
+	HORSE_POWER_RATE NUMBER(5) NULL  COMMENT 'the power of an engine measured in terms of horsepower.',
+	TORQUE_RATE NUMBER(5) NULL  COMMENT ' The rate of torque that measures the "turning/torquing ability" of the RV engine. This is a measure of how quickly the RV will accelerate',
+	DEPARTMENT_CODE VARCHAR(20) NULL  COMMENT 'A code that identifies a product department classification, such as 
+20 - EXTERIOR STORAGE
+21 - CAMPING
+22 - MAJOR APPLIANCES
+23 - HYDRAULIC JACKS
+24 - BIKES & ACCESSORIES
+
+Retail:
+ - 96
+ - 29',
+	DEPARTMENT_DESC VARCHAR(100) NULL  COMMENT 'Description for a department classification, such as 
+NON-MERCHANDISE
+BIKES & ACCESSORIES
+BRUSHES/BROOMS/ETC
+BATH/LAUNDRY/STORAGE
+ROOF VENTS',
+	CLASS_CODE VARCHAR(10) NULL  COMMENT 'Code for product class. such as 
+- 9697
+- 2403
+- 3305
+- 3401
+- 1699',
+	SUB_CLASS_DESC VARCHAR(250) NULL  COMMENT 'Description of a product category or subclass. such as 
+Dealership
+A name for the product category. such as 
+ - Laminate Trailer
+ - Luxury Travel Trailer
+ - Camping Trailer
+ - Full Profile
+ - Tag Axle Diesel Pusher
+Retail
+SUPPLIES
+ACCESSORIES
+DUSTERS/BROOMS
+BATHROOM ACCESSORIES',
+	CURRENT_MODEL_FLAG VARCHAR(5) NULL  COMMENT 'A flag indicating if a product model is current (Yes/No), such as 
+- RV model ',
+	MERCHANDIZE_CODE VARCHAR(40) NULL  COMMENT 'Merchandize code of product - as determined by MS teams.  This is an additional classification of the item, and also identifies how the product should function within in system.  I.e. Drop ship only or stocked only or only sold at stores',
+	PRODUCT_TYPE_CODE VARCHAR(20) NULL  COMMENT 'A code that identifies a product type RV such as towable or motorized',
+	PRODUCT_CATEGORY_CODE VARCHAR(40) NULL  COMMENT 'Product Classification - e.g. Inventory, Supply Item, Kit Item, Style Item',
+	REGISTER_PRODUCT_DESC VARCHAR(120) NULL  COMMENT 'Register description used for printing on receipts (character limit on receipts)
+Retail:
+ Non SKUd Inventory
+ MAG GLASS TWEEZERS	
+PILL FOB KEYCHAIN LG
+',
+	UOM_CD VARCHAR(10) NULL  COMMENT 'Primary Unit of Measure. such as 
+EA',
+	DIVISION_DESC VARCHAR(200) NULL  COMMENT 'Description of a division',
+	PRODUCT_STATUS_DESC VARCHAR(50) NULL  COMMENT 'Description of product lifecycle states - e.g. Active, Discontinued, Inactive',
+	PRODUCT_VOLUME_CUBIC_INCHES NUMBER(14,5) NULL  COMMENT 'Volumn in cubic inches',
+	PRODUCT_VOLUME NUMBER(14,5) NULL  COMMENT 'Volume of item',
+	VOLUME_UOM_CODE VARCHAR(20) NULL  COMMENT 'Unit of measure used for the calculation of the Volume, such as CI3',
+	COMPANY_BRAND_DESC VARCHAR(50) NULL  COMMENT 'CW Brand for the product - Camping World, Overtons or Gander
+A -	Automatch
+C -	Camping World
+G -	Gander Outdoors
+O -	Overtons
+R -	Rock Creek
+U -	Uncle Dans
+H -	The House
+W -	W82
+E -	Erehwon
+',
+	INITIAL_RECIEVED_DATE DATE NULL  COMMENT 'Date the product was first received anywhere in the organization - DC or Store alike',
+	VENDOR_NBR VARCHAR(40) NULL  COMMENT 'Vendor Number of primary vendor where product is sourced',
+	VENDOR_NAME VARCHAR(80) NULL  COMMENT 'Name of product vendor, such as GARY MANUFACTURING',
+	VENDOR_PART_NBR VARCHAR(40) NULL  COMMENT 'Vendor part number, for RV it is the chassis number. Last six digits of your car''s Vehicle Identification Numbers (VIN)',
+	MINIMUM_ORDER_QTY NUMBER NULL  COMMENT 'Min order quantity as required by law for certain product assortments',
+	MAXIMUM_ORDER_QTY NUMBER NULL  COMMENT 'Max order quantity as required by law for certain product assortments',
+	INVENTORY_FLAG VARCHAR(3) NULL  COMMENT 'Flag that controls the inventory funtionality of an item within in Oracle.  If not enabled, the Oracle will not behave like an inventory item - i.e. no shipments or other inventory on hand type transactions will occur for the item',
+	ORIGIN_COUNTRY_CODE VARCHAR(10) NULL  COMMENT 'Country of Origin as determined by internal customs laws, such as CN, VN, US etc',
+	AGE_RESTRICTION_NBR NUMBER(3) NULL  COMMENT 'Age restrictions related to the item as per federal law - used for determining if a customer may purchase the item as per federal and state laws',
+	PRODUCT_COST_AMT DECIMAL NULL  COMMENT 'This is the invoiced cost of the unit without addition of any freight charges, discounts that are applied to the whole invoice
+In reporting we use item cost. The actual Oracle transaction uses the actual cost layer every time. ',
+	INVENTORY_LANDED_COST_AMT DECIMAL NULL  COMMENT 'Average cost amount of the item. Inventory Land Cost = is this FIFO cost? (oldest inventory cost is used first and then more recent ‘cost layers’) FIFO cost refers to the order in which the cost layers are created/consumed. The weighted average of these layers is the Inventory landed Cost. Each receipt of inventory creates a new cost layer. Many of those layers have the same cost, but are received on different transactions so they create a new layer.',
+	LANDED_COST_AMT DECIMAL NULL  COMMENT 'average cost of an item (sums up the cost of the same item and divides by the # of that item in inventory',
+	MASTER_PACK_QTY NUMBER(8,2) NULL  COMMENT 'Quantity for ordering from vendor',
+	MERCHANDIZE_DESC VARCHAR(80) NULL  COMMENT 'Description of product Merchandize - as determined by MS teams.  This is an additional classification of the item, and also identifies how the product should function within in system.  I.e. Drop ship only or stocked only or only sold at stores',
+	FIREARM_FLAG VARCHAR(1) NULL  COMMENT 'Firearm identification flag, Yes or No',
+	PRODUCT_CATEGORY_DESC VARCHAR(50) NULL  COMMENT 'Product Classification - e.g. Inventory, Supply Item, Kit Item, Style Item',
+	CALIBER_DESC VARCHAR(50) NULL  COMMENT 'Firearm caliber description',
+	MAGAZINE_DESC VARCHAR(50) NULL  COMMENT 'Firearm magazine, such as CYLINDER, Removable, External Box',
+	BARREL_LENGTH VARCHAR(20) NULL  COMMENT 'Firearm barrel length',
+	FLOORING_COMMENCE_DATE DATE NULL  COMMENT '“Flooring Commence Date” is the date we start paying interest on the loan from the bank.',
+	FLOOR_PLAN_DESC VARCHAR(80) NULL  COMMENT 'RV floorplan description. such as :
+ - Bunkhouse
+ - Rear Bath
+ - Rear Dinette
+',
+	RV_TYPE_CODE VARCHAR(20) NULL  COMMENT 'a code that identifies an RV type, such as 
+ - TT
+ - FW
+ - A
+',
+	UPC_NBR VARCHAR(40) NULL  COMMENT 'Universal product code',
+	LINE_OF_BUSINESS_NAME VARCHAR(20) NULL  COMMENT 'Name of line of business, such as Dealership, Retail, GoodSam.',
+	ARRIVAL_DATE DATE NULL  COMMENT 'Arrival date is used as "offline date" - i.e. date the manufacturer allegedly tell CampingWorld a unit will be complete and ready to pay for',
+	DELIVERY_DATE DATE NULL  COMMENT 'Delivery Date is the planned date when a dealer plans to delivery a unit to the customer',
+	ORIGINAL_DESIGNATION_CODE VARCHAR(20) NULL  COMMENT 'Original designation identifying the condition of an asset at purchase, such as new, used consignment
+',
+	PIM_SKU_NBR VARCHAR(50) NULL  COMMENT 'Product Information Management Stock numbers'
+)
+COMMENT = 'The Product table contains Camping world holdings goods and services made available for consumer use; Asset, items and services that can be offered pr market to a customer.';
+
+CREATE OR REPLACE TABLE DIM_SHIP_TO_CUSTOMER
+(
+	SHIP_TO_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'System generated ship to unique identifier',
+	FIRST_NAME VARCHAR(100) NULL  COMMENT 'Customer first name',
+	LAST_NAME VARCHAR(100) NULL  COMMENT 'Customer''s last name',
+	FULL_NAME VARCHAR(150) NULL  COMMENT 'Customer full name',
+	LINE_1_ADDR VARCHAR(200) NULL  COMMENT 'Address line 1',
+	LINE_2_ADDR VARCHAR(100) NULL  COMMENT 'Address line 2',
+	CITY_NAME VARCHAR(50) NULL  COMMENT 'Address city name',
+	STATE_CODE VARCHAR(50) NULL  COMMENT 'Address state code',
+	COUNTRY_CODE VARCHAR(3) NULL  COMMENT 'Country code, such as US',
+	POSTAL_CODE VARCHAR(10) NULL  COMMENT 'Address postal code',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	CUSTOMER_SITE_NBR VARCHAR(20) NULL  COMMENT 'Unique identifier for the customer site',
+	SHIP_TO_CUSTOMER_NBR VARCHAR(20) NULL  COMMENT 'Oracle Customer account number',
+	CUSTOMER_TYPE_DESC VARCHAR(20) NULL  COMMENT 'Description of customer type such as person, organization',
+	EMAIL_ADDR VARCHAR(100) NULL  COMMENT 'email address',
+	CUSTOMER_CLASS_DESC VARCHAR(50) NULL  COMMENT 'Description of customer class such as standard',
+	HOME_PHONE_NBR VARCHAR(20) NULL  COMMENT 'home phone number',
+	MOBILE_PHONE_NBR VARCHAR(20) NULL  COMMENT 'mobile phone number',
+	OTHER_PHONE_NBR VARCHAR(20) NULL  COMMENT 'Other phone number'
+);
+
+
+
+CREATE OR REPLACE TABLE DIM_TRANSACTION_CHANNEL
+(
+	CHANNEL_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'A unique channel identifier',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	CHANNEL_DESC VARCHAR(40) NULL  COMMENT 'Description of a sales channel, such as 
+Retail Store, 
+Wholesale, 
+Mail, 
+DCC,
+ Web, 
+Gander Amazon, 
+Gander Retail, 
+Gander Web
+Gander AMZ FBA,
+ ELW Web, 
+ELW CC, 
+OB, 
+AUM
+Overtons Retail
+Overtons Web
+Overtons CC
+Gander CC
+Uncle Dans Web
+Rock Creek Web
+Rock Creek CC
+Replenishment',
+	CHANNEL_CATEGORY_DESC VARCHAR(40) NULL  COMMENT 'Description of channel category, such as 
+Direct
+Wholesale
+Retail
+'
+)
+COMMENT = 'A sales channel is the vessel a product is sold, such as in-store, online';
+
+CREATE OR REPLACE TABLE DIM_TRANSACTION_REASON
+(
+	REASON_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'System generated reason unique number',
+	REASON_CODE VARCHAR(20) NULL  COMMENT 'A code that identifies an order status reason for return, cancellation etc',
+	REASON_DESC VARCHAR(200) NULL  COMMENT 'Description of an order status reason for return, cancellation etc',
+	REASON_CATEGORY_DESC VARCHAR(200) NULL  COMMENT 'Description of an order reason category, such as return, cancellation etc',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime'
+)
+COMMENT = 'List of order status reasons, such as return , cancelled order reason';
+
+CREATE OR REPLACE TABLE DIM_TRANSACTION_STATUS
+(
+	TRANSACTION_STATUS_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'System generated unique transaction status identifier, such as order, cancelled, shipped, picked',
+	TRANSACTION_STATUS_CODE VARCHAR(20) NULL  COMMENT 'A code that identifies transaction status, such as order, cancelled, shipped, picked, booked, return, closed',
+	TRANSACTION_STATUS_DESC VARCHAR(80) NULL  COMMENT 'Description of transaction status, such as order, cancelled, shipped, picked,booked, return',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime'
+)
+COMMENT = 'List od transaction status, such as order, cancelled, shipped, picked, booked';
+
+CREATE OR REPLACE TABLE DIM_TRANSACTION_TYPE
+(
+	TRANSACTION_TYPE_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL  COMMENT 'A unique transaction type identifier',
+	TRANSACTION_TYPE_DESC VARCHAR(60) NULL  COMMENT 'Description of a transaction type, such as TRANSACTION_TYPE
+190 Monticello
+191 Tulsa
+920 Overtons Greenville
+930 Overtons Raleigh
+601 Gander Bowling Green
+602 Gander Ocala
+603 Gander Newnan
+604 Gander Cedar Rapids
+605 Gander Ft Pierce
+642 Gander Portage
+647 Gander Tonawanda
+615 Gander Florence
+655 Gander Baraboo
+626 Gander York
+',
+	TRANSACTION_TYPE_CODE VARCHAR(60) NULL  COMMENT 'A code identifying a type of transaction, such as 
+TRANSACTION_TYPE
+190 Monticello
+191 Tulsa
+920 Overtons Greenville
+930 Overtons Raleigh
+601 Gander Bowling Green
+602 Gander Ocala
+603 Gander Newnan
+604 Gander Cedar Rapids
+605 Gander Ft Pierce
+642 Gander Portage
+647 Gander Tonawanda
+615 Gander Florence
+655 Gander Baraboo
+626 Gander York
+',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	CATEGORY_DESC VARCHAR(15) NULL  COMMENT 'Descriptiom of an order line type group such as Mixed, return, order',
+	TRANSACTION_TYPE_LEVEL_DESC VARCHAR(15) NULL  COMMENT 'Description of a transaction type level such as order, line'
+)
+COMMENT = 'Type of transaction, such as sales, refund etc
+Transaction Type                          Category  Transaction type level
+400 GANDER AMAZON FBA	        MIXED	ORDER
+425 CONSIGNMENT LOCATION      MIXED	ORDER
+PICK, PACK, SHIP LINE	       ORDER	LINE
+BILL ONLY W INV DECREMENT       LINE	ORDER	LINE
+SPECIAL ORDER LINE	     ORDER	LINE
+BILL ONLY LINE	                   ORDER	LINE
+SHIP ONLY LINE	                  ORDER	LINE
+RETURN LINE	                 RETURN	LINE
+CREDIT ONLY LINE	                 RETURN	LINE
+STANDARD LINE	                  ORDER	LINE
+';
+
+CREATE OR REPLACE TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+(
+	ORDER_DATE_ID INT NOT NULL  COMMENT 'A unique date identifier',
+	COUPON_ID INT NOT NULL  COMMENT 'A unique promotion identifier',
+	CHANNEL_ID INT NULL  COMMENT 'A unique channel identifier',
+	SALES_LOCATION_ID INT NOT NULL  COMMENT 'Unique location identifier',
+	SHIP_TO_ID INT NULL  COMMENT 'System generated ship to unique identifier',
+	BILL_TO_ID INT NULL  COMMENT 'System generated bill to unique identifier',
+	PRODUCT_ID INT NOT NULL  COMMENT 'A unique system assigned identifier for the dealership''s RV.',
+	ORDER_NBR VARCHAR(20) NOT NULL  COMMENT 'Order number',
+	ORDER_LINE_NBR VARCHAR(20) NOT NULL  COMMENT 'Orderline number',
+	ORDER_QTY NUMBER NULL  COMMENT 'Order quantity',
+	TOTAL_ORDER_LINE_AMT DECIMAL NULL  COMMENT 'Total order line amount',
+	DISCOUNT_AMT DECIMAL NULL  COMMENT 'Discount amount',
+	NET_ORDER_AMT DECIMAL NULL  COMMENT 'Net order amount',
+	TRANSACTION_STATUS_ID INT NULL  COMMENT 'System generated unique transaction status identifier, such as order, cancelled, shipped, picked',
+	WEB_ORDER_NBR VARCHAR(20) NULL  COMMENT 'web order number ',
+	CANCELLED_QTY NUMBER NULL  COMMENT 'Quantity cancelled',
+	COST_PER_UNIT_AMT DECIMAL NULL  COMMENT 'Product cost per unit',
+	SALES_PRICE_AMT DECIMAL NULL  COMMENT 'Item selling price',
+	LIST_PRICE_AMT DECIMAL NULL  COMMENT 'item list price',
+	RETAIL_PRICE_AMT DECIMAL NULL  COMMENT 'Item retail price',
+	TAX_AMT DECIMAL NULL  COMMENT 'Tax amount',
+	PROCESS_DATE_ID INT NULL  COMMENT 'A unique date identifier',
+	STATUS_DATE_ID INT NULL  COMMENT 'A unique date identifier',
+	REASON_ID INT NULL  COMMENT 'System generated reason unique number',
+	EMPLOYEE_ID INT NULL  COMMENT 'A unique database identifier for sales associates',
+	TRANSACTION_TYPE_ID INT NOT NULL  COMMENT 'A unique transaction type identifier',
+	BOOKED_DATE_ID INT NULL  COMMENT 'A unique date identifier',
+	RECORD_LOAD_DTM DATE NULL  COMMENT 'Record load datetime',
+	OMNI_CHANNEL_ID INT NULL  COMMENT 'A system generated unique identifier',
+	MEMBERSHIP_ID INT NULL  COMMENT 'A system unique identifier',
+	CUSTOMER_ID INT NOT NULL  COMMENT 'System generated unique customer number',
+	RETAIL_CUSTOMER_ID INT NULL  COMMENT 'System generated unique customer number for businesses associated with a transaction'
+);
+
+ALTER TABLE DIM_BILL_TO_CUSTOMER
+	ADD CONSTRAINT XPKBillToDim PRIMARY KEY (BILL_TO_ID);
+
+ALTER TABLE DIM_COUPON
+	ADD CONSTRAINT XPKCouponDim PRIMARY KEY (COUPON_ID);
+
+ALTER TABLE DIM_DATE
+	ADD CONSTRAINT XPKDateDim PRIMARY KEY (DATE_ID);
+
+ALTER TABLE DIM_EMPLOYEE
+	ADD CONSTRAINT XPKEmployeeDim PRIMARY KEY (EMPLOYEE_ID);
+
+ALTER TABLE DIM_LOCATION
+	ADD CONSTRAINT XPKLocation PRIMARY KEY (LOCATION_ID);
+
+ALTER TABLE DIM_MDM_CUSTOMER
+	ADD CONSTRAINT XPKMDMCustomer PRIMARY KEY (CUSTOMER_ID);
+
+ALTER TABLE DIM_MEMBERSHIP
+	ADD CONSTRAINT XPKMbrshipDim PRIMARY KEY (MEMBERSHIP_ID);
+
+ALTER TABLE DIM_OMNI_CHANNEL
+	ADD CONSTRAINT XPKOMNIChnlDim PRIMARY KEY (OMNI_CHANNEL_ID);
+
+ALTER TABLE DIM_PRODUCT
+	ADD CONSTRAINT XPKProduct PRIMARY KEY (PRODUCT_ID);
+
+ALTER TABLE DIM_SHIP_TO_CUSTOMER
+	ADD CONSTRAINT XPKShipToDim PRIMARY KEY (SHIP_TO_ID);
+
+ALTER TABLE DIM_TRANSACTION_CHANNEL
+	ADD CONSTRAINT XPKTrnsChnlDim PRIMARY KEY (CHANNEL_ID);
+
+ALTER TABLE DIM_TRANSACTION_REASON
+	ADD CONSTRAINT XPKStsReasonDim PRIMARY KEY (REASON_ID);
+
+ALTER TABLE DIM_TRANSACTION_STATUS
+	ADD CONSTRAINT XPKTrnsStsDim PRIMARY KEY (TRANSACTION_STATUS_ID);
+
+ALTER TABLE DIM_TRANSACTION_TYPE
+	ADD CONSTRAINT XPKTrnsTypeDim PRIMARY KEY (TRANSACTION_TYPE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT XPKOrderlnTrnsFact PRIMARY KEY (ORDER_DATE_ID, COUPON_ID, SALES_LOCATION_ID, PRODUCT_ID, ORDER_NBR, ORDER_LINE_NBR, CUSTOMER_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_DateOrderTrans FOREIGN KEY (ORDER_DATE_ID) REFERENCES DIM_DATE (DATE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_CpnOL FOREIGN KEY (COUPON_ID) REFERENCES DIM_COUPON (COUPON_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_ChnlOL FOREIGN KEY (CHANNEL_ID) REFERENCES DIM_TRANSACTION_CHANNEL (CHANNEL_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_SalesLocOrder FOREIGN KEY (SALES_LOCATION_ID) REFERENCES DIM_LOCATION (LOCATION_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_ShipToOL FOREIGN KEY (SHIP_TO_ID) REFERENCES DIM_SHIP_TO_CUSTOMER (SHIP_TO_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_BillToOL FOREIGN KEY (BILL_TO_ID) REFERENCES DIM_BILL_TO_CUSTOMER (BILL_TO_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_ProdOL FOREIGN KEY (PRODUCT_ID) REFERENCES DIM_PRODUCT (PRODUCT_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_TrnsStsOL FOREIGN KEY (TRANSACTION_STATUS_ID) REFERENCES DIM_TRANSACTION_STATUS (TRANSACTION_STATUS_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_ProcessDateOl FOREIGN KEY (PROCESS_DATE_ID) REFERENCES DIM_DATE (DATE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_StatusRsnOL FOREIGN KEY (REASON_ID) REFERENCES DIM_TRANSACTION_REASON (REASON_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_EmpOL FOREIGN KEY (EMPLOYEE_ID) REFERENCES DIM_EMPLOYEE (EMPLOYEE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_TansTypeOL FOREIGN KEY (TRANSACTION_TYPE_ID) REFERENCES DIM_TRANSACTION_TYPE (TRANSACTION_TYPE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_BookedOLdate FOREIGN KEY (BOOKED_DATE_ID) REFERENCES DIM_DATE (DATE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_StatusOLDate FOREIGN KEY (STATUS_DATE_ID) REFERENCES DIM_DATE (DATE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_OMNIOL FOREIGN KEY (OMNI_CHANNEL_ID) REFERENCES DIM_OMNI_CHANNEL (OMNI_CHANNEL_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_MbrOrderline FOREIGN KEY (MEMBERSHIP_ID) REFERENCES DIM_MEMBERSHIP (MEMBERSHIP_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_CustOrderline FOREIGN KEY (CUSTOMER_ID) REFERENCES DIM_MDM_CUSTOMER (CUSTOMER_ID);
+
+ALTER TABLE FACT_RETAIL_ORDERLINE_TRANSACTION
+	ADD CONSTRAINT R_CoBuyerOrderln FOREIGN KEY (RETAIL_CUSTOMER_ID) REFERENCES DIM_MDM_CUSTOMER (CUSTOMER_ID);
+	
+
+CREATE TABLE DIM_DELIVERY_STATUS
+(
+	DELIVERY_STATUS_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL ,
+	DELIVERY_STATUS_CODE VARCHAR(20) NULL ,
+	DELIVERY_STATUS_DESC VARCHAR(80) NULL ,
+	RECORD_LOAD_DTM DATE NULL 
+);
+
+CREATE TABLE DIM_LOCATOR_CONTROL
+(
+	LOCATOR_CONTROL_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL ,
+	LOCATOR_CONTROL_CODE VARCHAR(50) NULL ,
+	LOCATOR_CONTROL_DESC VARCHAR(80) NULL ,
+	SUB_INVENTORY_CODE VARCHAR(20) NULL ,
+	SUB_INVENTORY_DESC VARCHAR(80) NULL ,
+	DISABLED_DATE DATE NULL ,
+	LOCATOR_STATUS_CODE VARCHAR(20) NULL ,
+	WEIGHT_UOM_CODE VARCHAR(20) NULL ,
+	MAXIMUM_WEIGHT DECIMAL(15,7) NULL ,
+	RECORD_LOAD_DTM DATE NULL ,
+	LOCATION_CODE VARCHAR(20) NULL 
+);
+
+CREATE TABLE DIM_RELEASE_STATUS
+(
+	RELEASE_STATUS_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL ,
+	RELEASE_STATUS_CODE VARCHAR(20) NULL ,
+	RELEASE_STATUS_DESC VARCHAR(80) NULL ,
+	RECORD_LOAD_DTM DATE NULL 
+);
+
+CREATE TABLE DIM_SHIPMENT_METHOD
+(
+	SHIPMENT_METHOD_CODE VARCHAR(20) NULL ,
+	SHIPMENT_METHOD_ID INT
+	AUTOINCREMENT START 1 INCREMENT 1 NOT NULL ,
+	SHIPMENT_METHOD_DESC VARCHAR(80) NULL ,
+	SHIPPER_NAME VARCHAR(80) NULL ,
+	SERVICE_LEVEL_DESC VARCHAR(80) NULL ,
+	TRANSPORTATION_MODE_DESC VARCHAR(80) NULL ,
+	RECORD_LOAD_DTM DATE NULL 
+);
+
+CREATE TABLE FACT_RETAIL_ORDER_SHIPMENT
+(
+	TRACKING_NBR VARCHAR(20) NULL ,
+	SHIPMENT_METHOD_ID INT NULL ,
+	ORDER_NBR VARCHAR(20) NOT NULL ,
+	SHIPPED_QTY INT NULL ,
+	ORDER_LINE_NBR VARCHAR(20) NOT NULL ,
+	REQUESTED_QTY INT NULL ,
+	DELIVERY_STATUS_ID INT NULL ,
+	ACTUAL_SHIPPING_CHARGE_AMT DECIMAL NULL ,
+	FREIGHT_CHARGE_AMT DECIMAL NULL ,
+	SHIPPING_EACH_CHARGE_AMT DECIMAL NULL ,
+	SHIPPING_STANDARD_CHARGE_AMT DECIMAL NULL ,
+	ACTUAL_SHIPPING_COST_AMT DECIMAL NULL ,
+	SHIPMENT_BOX_CNT INT NULL ,
+	DELIVERY_NET_WEIGHT DECIMAL(12,5) NULL ,
+	DELIVERY_GROSS_WEIGHT DECIMAL(12,5) NULL ,
+	RELEASE_STATUS_ID INT NULL ,
+	DC_ATR_QTY INT NULL ,
+	LOCATOR_CONTROL_ID INT NULL ,
+	SHIPMENT_NBR VARCHAR(5) NOT NULL ,
+	RECORD_LOAD_DTM DATE NULL ,
+	DELIVERY_DETAIL_NBR VARCHAR(20) NOT NULL ,
+	CUSTOMER_ID INT NOT NULL ,
+	CONFIRMED_BY_EMPLOYEE_ID INT NULL ,
+	PROCESSED_SHIP_DATE_ID INT NOT NULL ,
+	PRODUCT_ID INT NOT NULL ,
+	LOCATION_ID INT NOT NULL ,
+	SALES_LOCATION_ID INT NULL ,
+	SHIP_TO_ID INT NOT NULL ,
+	BILL_TO_ID INT NULL ,
+	CONFIRMED_DATE_ID INT NULL ,
+	SCHEDULE_DATE_ID INT NULL ,
+	REQUEST_SHIP_DATE_ID INT NULL ,
+	PICK_RELEASE_DATE_ID INT NULL 
+);
+
+ALTER TABLE DIM_DELIVERY_STATUS
+	ADD CONSTRAINT XPKDeliveryStatusDimension PRIMARY KEY (DELIVERY_STATUS_ID);
+
+ALTER TABLE DIM_LOCATOR_CONTROL
+	ADD CONSTRAINT XPKLocatorControlDimension PRIMARY KEY (LOCATOR_CONTROL_ID);
+
+ALTER TABLE DIM_RELEASE_STATUS
+	ADD CONSTRAINT XPKReleaseStatusDimension PRIMARY KEY (RELEASE_STATUS_ID);
+
+ALTER TABLE DIM_SHIPMENT_METHOD
+	ADD CONSTRAINT XPKShippingMethodDimension PRIMARY KEY (SHIPMENT_METHOD_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT XPKRetailOrderShipmentFact PRIMARY KEY (ORDER_LINE_NBR, ORDER_NBR, SHIPMENT_NBR, DELIVERY_DETAIL_NBR, CUSTOMER_ID, PROCESSED_SHIP_DATE_ID, PRODUCT_ID, LOCATION_ID, SHIP_TO_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_shpMthdOrderShip FOREIGN KEY (SHIPMENT_METHOD_ID) REFERENCES DIM_SHIPMENT_METHOD (SHIPMENT_METHOD_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_DlvryStsOrderShip FOREIGN KEY (DELIVERY_STATUS_ID) REFERENCES DIM_DELIVERY_STATUS (DELIVERY_STATUS_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_RlsStsOrderShip FOREIGN KEY (RELEASE_STATUS_ID) REFERENCES DIM_RELEASE_STATUS (RELEASE_STATUS_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_LocCtrlOrderShip FOREIGN KEY (LOCATOR_CONTROL_ID) REFERENCES DIM_LOCATOR_CONTROL (LOCATOR_CONTROL_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_CustOrderShp FOREIGN KEY (CUSTOMER_ID) REFERENCES DIM_MDM_CUSTOMER (CUSTOMER_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_EmpOrderShpmnt FOREIGN KEY (CONFIRMED_BY_EMPLOYEE_ID) REFERENCES DIM_EMPLOYEE (EMPLOYEE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_PrcsShpDtOrderShpmnt FOREIGN KEY (PROCESSED_SHIP_DATE_ID) REFERENCES DIM_DATE (DATE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_ProdOrderShpmnt FOREIGN KEY (PRODUCT_ID) REFERENCES DIM_PRODUCT (PRODUCT_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_LocOrderShpmnt FOREIGN KEY (LOCATION_ID) REFERENCES DIM_LOCATION (LOCATION_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_SlsLocOrderShpmnt FOREIGN KEY (SALES_LOCATION_ID) REFERENCES DIM_LOCATION (LOCATION_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_ShipToOrderShpmnt FOREIGN KEY (SHIP_TO_ID) REFERENCES DIM_SHIP_TO_CUSTOMER (SHIP_TO_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_BillToOrderShpmnt FOREIGN KEY (BILL_TO_ID) REFERENCES DIM_BILL_TO_CUSTOMER (BILL_TO_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_cnfrmDtOrderShpmnt FOREIGN KEY (CONFIRMED_DATE_ID) REFERENCES DIM_DATE (DATE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_SchDtOrderShpmnt FOREIGN KEY (SCHEDULE_DATE_ID) REFERENCES DIM_DATE (DATE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_RqstDtOrderShpmnt FOREIGN KEY (REQUEST_SHIP_DATE_ID) REFERENCES DIM_DATE (DATE_ID);
+
+ALTER TABLE FACT_RETAIL_ORDER_SHIPMENT
+	ADD CONSTRAINT R_PickRlsDtOrderShpmnt FOREIGN KEY (PICK_RELEASE_DATE_ID) REFERENCES DIM_DATE (DATE_ID);
+
+
+    
