@@ -1,0 +1,61 @@
+name:SnowflakeDeployment
+
+on: 
+
+              push:   
+
+                             branches:[ main, uat, dev ]
+
+jobs: 
+
+              snowflake-deployment:   
+
+                             runs-on: ubuntu-latest   
+
+                             steps:   
+
+                             - name: Checkout repository     
+
+                               uses: actions/checkout@v1   
+
+                             - name: Get changed files
+
+                               id: files     
+
+                               uses: itterbit/get-changed-files@v1   
+
+                             - name: Extract branch name     
+
+                               shell: bash     
+
+                    run: echo"##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"     
+
+                               id: extract_branch   
+
+                             - name: setup python     
+
+                               uses: actions/setup-python@v2     
+
+                               with:       
+
+                                           python-version: 3.6   
+
+                             - name: Install Dependencies     
+
+                               run:|       
+
+                                           pip install -r https://raw.githubusercontent.com/snowflakedb/snowflake-connector       
+
+                                           python/v2.7.3/tested_requirements/requirements_36.reqs   
+
+                             - name:Deploying Snowflake objects     
+
+                               run:|       
+
+                                           for changed_file in ${{ steps.files.outputs.all }}; do         
+
+                                                          python snowflake.py ${changed_file} ${{ steps.extract_branch.outputs.branch }}         
+
+                                                          ${{ secrets.sf_username }} ${{ secrets.sf_pwd }} ${{ secrets.sf_acct }}       
+
+                                           done
