@@ -4,6 +4,10 @@ on:
   push:
     branches: [main, uat, dev, feature_branch]
 
+env:
+  UPDATED: updated
+  ADDED: added
+
 jobs:
   snowflake-deployment:
     runs-on: ubuntu-latest
@@ -24,17 +28,13 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install -r https://raw.githubusercontent.com/snowflakedb/snowflake-connector-python/v2.7.3/tested_requirements/requirements_36.reqs
-      - name: setting file action variables
-        run: |
-          export UPDATED='updated'
-          export ADDED='added'
       - name: Deploying new Snowflake objects
         run: |
           for changed_file in ${{ steps.files.outputs.added }}; do
-            python run_snowflake.py ${changed_file} ${{ steps.extract_branch.outputs.branch }} ${{ secrets.SVC_CICD_DEV }} ${{ secrets.SVC_CICD_UAT }} ${{ secrets.PASSPHRASE_DEV }} ${{ secrets.PASSPHRASE_UAT }} ${{ secrets.SF_ACCT }} ${{ secrets.SF_WAREHOUSE }} ${ADDED}
+            python run_snowflake.py ${changed_file} ${{ steps.extract_branch.outputs.branch }} ${{ secrets.SVC_CICD_DEV }} ${{ secrets.SVC_CICD_UAT }} ${{ secrets.PASSPHRASE_DEV }} ${{ secrets.PASSPHRASE_UAT }} ${{ secrets.SF_ACCT }} ${{ secrets.SF_WAREHOUSE }} $ADDED
           done
       - name: Deploying updated Snowflake objects
         run: |
           for changed_file in ${{ steps.files.outputs.modified }}; do
-            python run_snowflake.py ${changed_file} ${{ steps.extract_branch.outputs.branch }} ${{ secrets.SVC_CICD_DEV }} ${{ secrets.SVC_CICD_UAT }} ${{ secrets.PASSPHRASE_DEV }} ${{ secrets.PASSPHRASE_UAT }} ${{ secrets.SF_ACCT }} ${{ secrets.SF_WAREHOUSE }} ${UPDATED}
+            python run_snowflake.py ${changed_file} ${{ steps.extract_branch.outputs.branch }} ${{ secrets.SVC_CICD_DEV }} ${{ secrets.SVC_CICD_UAT }} ${{ secrets.PASSPHRASE_DEV }} ${{ secrets.PASSPHRASE_UAT }} ${{ secrets.SF_ACCT }} ${{ secrets.SF_WAREHOUSE }} $UPDATED
           done
