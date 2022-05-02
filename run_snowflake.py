@@ -94,11 +94,11 @@ if __name__ == "__main__":
         username=username[branch_replacement[branch]], passphrase=passphrase, private_key=ppk_key, account=account, warehouse=warehouse
     )
     try:
+        print(f"Branch name: {branch}")
+        print(f"{file_name} has been changed")
         if file_type.lower() in ["yml", "py"]:
             sys.exit(0)
         else:
-            print(f"Branch name: {branch}")
-            print(f"{file_name} has been changed")
             query = ""
             with open(file_name, "r") as f:
                 queries = "".join(line.rstrip() for line in f)
