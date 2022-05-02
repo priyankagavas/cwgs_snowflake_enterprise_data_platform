@@ -2,7 +2,7 @@ name: SnowflakeDeployment
 
 on:
   push:
-    branches: [main, uat, dev]
+    branches: [main, uat, dev, feature_branch]
 
 jobs:
   snowflake-deployment:
