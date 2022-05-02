@@ -11,7 +11,7 @@ import json
 def decode64(encoded_str):
     base64_bytes = encoded_str.encode("ascii")
     decoded_bytes = base64.b64decode(base64_bytes)
-    return decoded_bytes.decode("ascii")
+    return decoded_bytes
 
 def sf_connect(username, private_key, passphrase, account, warehouse):
     try:
