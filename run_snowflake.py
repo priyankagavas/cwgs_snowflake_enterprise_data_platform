@@ -71,35 +71,38 @@ def create_log_table(cursor):
 if __name__ == "__main__":
     file_name = sys.argv[1]
     branch = sys.argv[2]
-    username = sys.argv[3]
-    dev_ppk = sys.argv[4]
-    uat_ppk = sys.argv[5]
-    dev_passphrase = sys.argv[6]
-    uat_passphrase = sys.argv[7]
-    account = sys.argv[8]
-    warehouse = sys.argv[9]
-    file_action = sys.argv[10]
+    dev_ppk = sys.argv[3]
+    uat_ppk = sys.argv[4]
+    dev_passphrase = sys.argv[5]
+    uat_passphrase = sys.argv[6]
+    account = sys.argv[7]
+    warehouse = sys.argv[8]
+    file_action = sys.argv[9]
     actor = os.getenv("GITHUB_ACTOR")
     sha = os.getenv("GITHUB_SHA")
 
-    branch_replacement = {"dev": "dev", "uat": "uat", "main": "prod", "feature_branch": "dev"}
+    branch_replacement = {"dev": "dev", "uat": "uat", "main": "prod"}
     file_type = file_name.split(".")[1]
     ppk_key = ''
+    username = ''
+    passphrase = ''
     if branch_replacement[branch] == 'dev':
         ppk_key = dev_ppk
         passphrase = dev_passphrase
+        username = 'svc_cicd_dev'
     elif branch_replacement[branch] == 'uat':
         ppk_key = uat_ppk
         passphrase = uat_passphrase
+        username = 'svc_cicd_uat'
     conn, cursor = sf_connect(
-        username=json.loads(username)[branch_replacement[branch]], passphrase=passphrase, private_key=ppk_key, account=account, warehouse=warehouse
+        username=username, passphrase=passphrase, private_key=ppk_key, account=account, warehouse=warehouse
     )
     try:
-        print(f"Branch name: {branch}")
-        print(f"{file_name} has been changed")
         if file_type.lower() in ["yml", "py"]:
             sys.exit(0)
         else:
+            print(f"Branch name: {branch}")
+            print(f"{file_name} has been changed")
             query = ""
             with open(file_name, "r") as f:
                 queries = "".join(line.rstrip() for line in f)
@@ -122,4 +125,3 @@ if __name__ == "__main__":
     finally:
         cursor.close()
         conn.close()
-
