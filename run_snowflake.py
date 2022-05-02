@@ -81,7 +81,7 @@ if __name__ == "__main__":
     actor = os.getenv("GITHUB_ACTOR")
     sha = os.getenv("GITHUB_SHA")
 
-    branch_replacement = {"dev": "dev", "uat": "uat", "main": "prod"}
+    branch_replacement = {"dev": "dev", "uat": "uat", "main": "prod", "feature_branch": "dev"}
     file_type = file_name.split(".")[1]
     ppk_key = ''
     username = ''
