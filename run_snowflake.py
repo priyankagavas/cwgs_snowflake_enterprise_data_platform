@@ -17,7 +17,7 @@ def sf_connect(username, private_key, passphrase, account, warehouse):
     try:
         p_key = serialization.load_pem_private_key(
             decode64(private_key),
-            password=decode64(passphrase).encode(),
+            password=decode64(passphrase.decode("ascii")).encode(),
             backend=default_backend(),
         )
 
