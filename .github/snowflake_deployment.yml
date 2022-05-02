@@ -1,0 +1,40 @@
+name: SnowflakeDeployment
+
+on:
+  push:
+    branches: [main, uat, dev]
+
+jobs:
+  snowflake-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - name: Get changed files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
+      - name: Install Dependencies
+        run: |
+          pip install -r https://raw.githubusercontent.com/snowflakedb/snowflake-connector-python/v2.7.3/tested_requirements/requirements_36.reqs
+      - name: setting file action variables
+        run: |
+          export UPDATED='updated'
+          export ADDED='added'
+      - name: Deploying new Snowflake objects
+        run: |
+          for changed_file in ${{ steps.files.outputs.added }}; do
+            python run_snowflake.py ${changed_file} ${{ steps.extract_branch.outputs.branch }} ${{ secrets.SF_USERNAME }} ${{ secrets.SVC_CICD_DEV }} ${{ secrets.SVC_CICD_UAT }} ${{ secrets.PASSPHRASE_DEV }} ${{ secrets.PASSPHRASE_UAT }} ${{ secrets.SF_ACCT }} ${{ secrets.SF_WAREHOUSE }} ${ADDED}
+          done
+      - name: Deploying updated Snowflake objects
+        run: |
+          for changed_file in ${{ steps.files.outputs.updated }}; do
+            python run_snowflake.py ${changed_file} ${{ steps.extract_branch.outputs.branch }} ${{ secrets.SF_USERNAME }} ${{ secrets.SVC_CICD_DEV }} ${{ secrets.SVC_CICD_UAT }} ${{ secrets.PASSPHRASE_DEV }} ${{ secrets.PASSPHRASE_UAT }} ${{ secrets.SF_ACCT }} ${{ secrets.SF_WAREHOUSE }} ${UPDATED}
+          done
