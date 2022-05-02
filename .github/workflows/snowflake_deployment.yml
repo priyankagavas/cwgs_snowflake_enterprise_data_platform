@@ -35,6 +35,6 @@ jobs:
           done
       - name: Deploying updated Snowflake objects
         run: |
-          for changed_file in ${{ steps.files.outputs.updated }}; do
+          for changed_file in ${{ steps.files.outputs.modified }}; do
             python run_snowflake.py ${changed_file} ${{ steps.extract_branch.outputs.branch }} ${{ secrets.SF_USERNAME }} ${{ secrets.SVC_CICD_DEV }} ${{ secrets.SVC_CICD_UAT }} ${{ secrets.PASSPHRASE_DEV }} ${{ secrets.PASSPHRASE_UAT }} ${{ secrets.SF_ACCT }} ${{ secrets.SF_WAREHOUSE }} ${UPDATED}
           done
